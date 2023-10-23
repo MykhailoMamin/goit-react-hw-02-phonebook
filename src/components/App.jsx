@@ -20,9 +20,19 @@ export default class App extends Component {
   };
 
   handleAddContact = (text, number) => {
-    this.setState(prevState => ({
-      contacts: [{ id: nanoid(), text, number }, ...prevState.contacts],
-    }));
+    const normalisedText = text.toLowerCase(); // Перетворити ім'я до нижнього регістру
+
+    if (
+      this.state.contacts.some(
+        contact => contact.text.toLowerCase() === normalisedText
+      )
+    ) {
+      alert(`${text} is already in contacts.`); // Перевірити чи ім'я вже існує в нижньому регістрі
+    } else {
+      this.setState(prevState => ({
+        contacts: [{ id: nanoid(), text, number }, ...prevState.contacts],
+      }));
+    }
   };
 
   deleteContact = contactId => {
